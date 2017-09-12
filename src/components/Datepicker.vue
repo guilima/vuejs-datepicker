@@ -15,7 +15,8 @@
         :name="name"
         :ref="refName"
         :id="id"
-        @click="showCalendar"
+        @focus="showCalendar"
+        @blur="onBlur"
         :value="formattedValue"
         :open-date="openDate"
         :placeholder="placeholder"
@@ -331,6 +332,11 @@ export default {
       if (!this.isInline) {
         if (full) this.$emit('closed')
         document.removeEventListener('click', this.clickOutside, false)
+      }
+    },
+    onBlur (e) {
+      if (e.relatedTarget) {
+        this.close()
       }
     },
     resetDefaultDate () {
