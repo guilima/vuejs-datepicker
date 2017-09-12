@@ -16,6 +16,8 @@
         :name="name"
         :ref="refName"
         :id="id"
+        ref="inputdatepicker"
+        @keyup="updateDate"
         @focus="showCalendar"
         @blur="onBlur"
         :value="formattedValue"
@@ -348,6 +350,14 @@ export default {
         return
       }
       this.setPageDate(this.selectedDate)
+    },
+    updateDate (event) {
+      let valueDate = this.$refs.inputdatepicker.value
+      if (event.key !== 'Backspace') {
+        if (valueDate.match(/^(0[1-9]|[1-2]\d|3[0-1])\/(0[1-9]|1[0-2])\/(20\d{2}|19\d{2})$/)) {
+          this.$emit('input', DateUtils.newDate(valueDate, this.format, this.translation))
+        }
+      }
     },
     /**
      * Effectively a toggle to show/hide the calendar
